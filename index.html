@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="manifest" href="/manifest.json" />
+<link rel="icon" href="/icon-192.png" />
+<link rel="apple-touch-icon" href="/icon-192.png" />
+<meta name="theme-color" content="#002366" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Campaign Momentum" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Campaign Momentum: Plan it. Track it. Ship it.</title>
+<meta name="description" content="Campaign Momentum is a free Kanban board for planning and tracking every campaign and editorial deadline in one place. No account required, nothing stored on our servers unless you connect your own Google Sheet." />
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ocean: #002366; --ocean-mid: #002d7a;
+  --horizon: #3A6DB5; --horizon-mid: #4d7dc0;
+  --mist: #D6E4F5; --fog: #F0F4F9;
+  --ink: #1A1F2E; --slate: #4A5568; --stone: #8A9BB0;
+  --white: #FFFFFF;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Josefin Sans', sans-serif; background: var(--ocean); color: var(--ink); font-size: 18px; line-height: 1.5; margin: 0; }
+nav { background: var(--ocean); border-bottom: 2px solid var(--horizon); padding: 0 3rem; height: 72px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.nav-brand { display: flex; align-items: center; gap: 12px; color: #fff; font-size: 18px; font-weight: 700; text-decoration: none; letter-spacing: 0.02em; }
+.nav-brand .brand-sub { font-size: 10px; font-weight: 400; color: var(--mist); letter-spacing: 0.1em; text-transform: uppercase; display: block; line-height: 1; margin-top: 3px; }
+.nav-cta { background: var(--horizon); color: #fff; border: none; border-radius: 6px; padding: 10px 24px; font-size: 13px; font-family: inherit; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background 0.15s; }
+.nav-cta:hover { background: var(--horizon-mid); }
+.hero { background: var(--ocean); padding: 7rem 3rem 6rem; text-align: center; }
+.hero-eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); background: rgba(214,228,245,0.12); border: 1px solid rgba(214,228,245,0.25); border-radius: 99px; padding: 6px 18px; margin-bottom: 2rem; }
+.hero h1 { font-size: clamp(2.6rem, 6vw, 4.2rem); font-weight: 700; line-height: 1.1; margin-bottom: 1rem; color: #fff; max-width: 780px; margin-left: auto; margin-right: auto; }
+.hero h1 em { font-style: normal; color: var(--mist); }
+.hero-tagline { font-size: 1.4rem; color: var(--mist); font-style: italic; margin-bottom: 1.5rem; letter-spacing: 0.04em; }
+.hero-sub { font-size: 1.2rem; color: rgba(214,228,245,0.85); max-width: 580px; margin: 0 auto 3rem; line-height: 1.5; }
+.hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-launch { background: var(--horizon); color: #fff; border: none; border-radius: 6px; padding: 16px 36px; font-size: 14px; font-family: inherit; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: background 0.15s; }
+.btn-launch:hover { background: var(--horizon-mid); }
+.btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; padding: 16px 30px; font-size: 14px; font-family: inherit; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: background 0.15s; }
+.btn-ghost:hover { background: rgba(255,255,255,0.08); }
+.frame-ocean { background: var(--ocean); padding: 0 10rem; }
+.frame-fog { background: var(--fog); padding: 0 10rem; }
+.box-white { background: var(--white); padding: 5rem 4rem; }
+.box-ocean { background: var(--ocean); padding: 5rem 4rem; }
+.block-label-dark { font-size: 18px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--horizon); margin-bottom: 1rem; text-align: center; }
+.block-label-light { font-size: 18px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mist); margin-bottom: 1rem; text-align: center; }
+.block-title-dark { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700; color: var(--ocean); line-height: 1.15; margin-bottom: 1.5rem; text-align: center; }
+.block-title-light { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700; color: #fff; line-height: 1.15; margin-bottom: 1.5rem; text-align: center; }
+.block-body-dark { font-size: 1.15rem; color: var(--slate); line-height: 1.5; text-align: left; margin-bottom: 2rem; }
+.block-body-light { font-size: 1.15rem; color: rgba(214,228,245,0.85); line-height: 1.5; text-align: left; margin-bottom: 2rem; }
+.block-content { max-width: 760px; margin: 0 auto; }
+.block-cta { text-align: left; }
+.block-cta a { font-size: 0.95rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; }
+.block-cta.dark a { color: var(--horizon); }
+.block-cta.light a { color: var(--mist); }
+.block-cta a:hover { text-decoration: underline; }
+.stage-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.stage-chip { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 16px; border-radius: 99px; }
+.stage-chip.dark { background: var(--fog); color: var(--ocean); border: 1px solid var(--mist); }
+.stage-chip.light { background: rgba(214,228,245,0.12); color: var(--mist); border: 1px solid rgba(214,228,245,0.25); }
+.audience-body { font-size: 1.15rem; color: var(--slate); line-height: 1.7; text-align: left; }
+.audience-body p { margin-bottom: 1.25rem; }
+.audience-body p:last-child { margin-bottom: 0; }
+.steps-list { display: flex; flex-direction: column; gap: 2rem; text-align: left; }
+.step-item { display: flex; gap: 1.25rem; align-items: flex-start; }
+.step-num-dark { width: 40px; height: 40px; border-radius: 50%; background: var(--ocean); color: var(--mist); font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step-item h3 { font-size: 1rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
+.step-item-dark h3 { color: var(--ocean); }
+.step-item-dark p { font-size: 1.15rem; color: var(--slate); line-height: 1.5; }
+.faq-list { display: flex; flex-direction: column; gap: 2rem; text-align: left; }
+.faq-item h3 { font-size: 1rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ocean); margin-bottom: 6px; }
+.faq-item p { font-size: 1.15rem; color: var(--slate); line-height: 1.5; }
+.faq-item a { color: var(--horizon); text-decoration: none; }
+.faq-item a:hover { text-decoration: underline; }
+.cta-band { background: var(--ocean); padding: 0 10rem; }
+.cta-inner { background: var(--white); padding: 5rem 4rem; text-align: center; }
+.cta-band h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: var(--ocean); margin-bottom: 0.75rem; }
+.cta-tagline { font-size: 1.3rem; color: var(--horizon); font-style: italic; margin-bottom: 1.25rem; letter-spacing: 0.04em; }
+.cta-band p { font-size: 1.05rem; color: var(--slate); margin-bottom: 2.5rem; }
+footer { background: var(--ink); padding: 2.5rem 3rem; text-align: center; }
+.footer-brand { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.footer-tagline { font-size: 13px; color: var(--mist); font-style: italic; margin-bottom: 8px; }
+.footer-sub { font-size: 13px; color: var(--stone); }
+.footer-sub a { color: var(--mist); text-decoration: none; }
+.footer-sub a:hover { text-decoration: underline; }
+@media (max-width: 900px) {
+  .frame-ocean, .frame-fog, .cta-band { padding: 0 2rem; }
+  .box-white, .box-ocean, .cta-inner { padding: 3.5rem 2rem; }
+  nav { padding: 0 1.5rem; }
+  .hero { padding: 4rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">
+    <svg width="52" height="52" viewBox="0 0 126 126" fill="none">
+      <path d="M 18 80 A 45 45 0 0 1 108 80" stroke="rgba(214,228,245,0.12)" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <path d="M 18 80 A 45 45 0 0 1 80 35" stroke="#3A6DB5" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <path d="M 80 35 A 45 45 0 0 1 108 80" stroke="#D6E4F5" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <line x1="18" y1="80" x2="8" y2="80" stroke="rgba(214,228,245,0.35)" stroke-width="4" stroke-linecap="round"/>
+      <line x1="34" y1="34" x2="27" y2="27" stroke="rgba(214,228,245,0.35)" stroke-width="4" stroke-linecap="round"/>
+      <line x1="63" y1="18" x2="63" y2="8" stroke="rgba(214,228,245,0.35)" stroke-width="4" stroke-linecap="round"/>
+      <line x1="92" y1="34" x2="99" y2="27" stroke="rgba(214,228,245,0.35)" stroke-width="4" stroke-linecap="round"/>
+      <line x1="108" y1="80" x2="118" y2="80" stroke="rgba(214,228,245,0.35)" stroke-width="4" stroke-linecap="round"/>
+      <line x1="63" y1="63" x2="98" y2="38" stroke="#4A5568" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="63" cy="63" r="10" fill="#4A5568"/>
+      <circle cx="63" cy="63" r="5" fill="#002366"/>
+    </svg>
+    <div>
+      Campaign Momentum™
+      <span class="brand-sub">Plan it. Track it. Ship it.</span>
+    </div>
+  </a>
+  <a class="nav-cta" href="app.html">Launch the board →</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">Built for comms teams juggling more campaigns than hands</div>
+  <h1>Your campaigns live in<br><em>too many places.</em></h1>
+  <div class="hero-tagline">Plan it. Track it. Ship it.</div>
+  <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(214,228,245,0.12);border:1px solid rgba(214,228,245,0.25);border-radius:99px;padding:6px 16px;margin:1rem 0;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="#D6E4F5"><path d="M12 2 L13.5 9.5 L21 8 L15 13 L18 21 L12 16.5 L6 21 L9 13 L3 8 L10.5 9.5 Z"/></svg>
+    <span style="font-size:11px;font-weight:700;letter-spacing:0.08em;color:var(--mist);text-transform:uppercase;">Optional AI suggestions, powered by Claude</span>
+  </div>
+  <p class="hero-sub">Sticky notes, a spreadsheet, somebody's memory. Campaign Momentum gives every campaign one home: a six-stage board that shows what's moving, what's stuck, and what's due next.</p>
+  <div class="hero-actions">
+    <a class="btn-launch" href="app.html">Launch the board →</a>
+    <a class="btn-ghost" href="#features">See how it works</a>
+  </div>
+</section>
+
+<div class="frame-ocean" id="features">
+  <div class="box-white">
+    <div class="block-content">
+      <div class="block-label-dark">One board, six real stages</div>
+      <h2 class="block-title-dark">From idea to live, without losing track of anything in between.</h2>
+      <div class="stage-row" style="justify-content:center;">
+        <span class="stage-chip dark">Idea</span>
+        <span class="stage-chip dark">Planning</span>
+        <span class="stage-chip dark">In Progress</span>
+        <span class="stage-chip dark">Review</span>
+        <span class="stage-chip dark">Scheduled</span>
+        <span class="stage-chip dark">Live</span>
+      </div>
+      <p class="block-body-dark">Every campaign moves through the same six stages, so nothing gets stuck in someone's inbox or forgotten in a doc. Drag a card forward the moment its status changes. See your whole pipeline, from first idea to what's live right now, in one glance.</p>
+      <div class="block-cta dark"><a href="app.html">Open the board →</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="frame-fog">
+  <div class="box-ocean">
+    <div class="block-content">
+      <div class="block-label-light">Card details that actually matter</div>
+      <h2 class="block-title-light">Owner, deadline, channel, priority — right on the card.</h2>
+      <p class="block-body-light">Every card carries what you actually need to make a decision at a glance: who owns it, which channel it's for, when it's due, and how urgent it is. Add notes and tags to keep context with the work instead of buried in a separate thread.</p>
+      <div class="block-cta light"><a href="app.html">See a sample card →</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="frame-ocean">
+  <div class="box-white">
+    <div class="block-content">
+      <div class="block-label-dark">Stay ahead of deadlines</div>
+      <h2 class="block-title-dark">See what's overdue before a stakeholder has to ask.</h2>
+      <p class="block-body-dark">Cards flag themselves as target dates approach and pass, so a campaign stalled in Review doesn't quietly slip past its launch date. No status meeting required to know what needs attention today.</p>
+    </div>
+  </div>
+</div>
+
+<div class="frame-fog">
+  <div class="box-ocean">
+    <div class="block-content">
+      <div class="block-label-light">Optional, and entirely yours</div>
+      <h2 class="block-title-light">AI suggestions when you want them. Your own key, your own data.</h2>
+      <p class="block-body-light">Add your own Anthropic API key and get a suggested next step on any card, drafted with the card's own details in mind. Skip it entirely and the board works exactly the same. Nothing is sent anywhere unless you ask for a suggestion, and it goes straight from your browser to Anthropic.</p>
+    </div>
+  </div>
+</div>
+
+<div class="frame-ocean">
+  <div class="box-white">
+    <div class="block-content">
+      <div class="block-label-dark">Works across devices</div>
+      <h2 class="block-title-dark">Start on your laptop. Connect a free Google Sheet to keep it in sync everywhere else.</h2>
+      <p class="block-body-dark">Campaign Momentum works immediately with no setup, saved right in your browser. When you're ready to check the board from your phone or share it with a teammate, connect a Google Sheet you own and every device stays in sync automatically.</p>
+    </div>
+  </div>
+</div>
+
+<div class="frame-fog">
+  <div class="box-ocean">
+    <div class="block-content">
+      <div class="block-label-light">Who it's for</div>
+      <h2 class="block-title-light">Built for the person running comms without a project manager behind them.</h2>
+      <div class="audience-body" style="color: rgba(214,228,245,0.85);">
+        <p>Campaign Momentum is for the solo communicator tracking a dozen campaigns at once, with no project management software and no one else keeping the master list.</p>
+        <p>That's the nonprofit comms lead planning a fall appeal, a rebrand rollout, and three social pushes at the same time. The consultant managing editorial calendars for more than one client. The one-person marketing shop that needs a single source of truth without a $30-a-month tool to justify.</p>
+        <p>What they have in common: campaigns that move fast, deadlines that matter, and no time to maintain a project management tool built for a bigger team.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="frame-ocean">
+  <div class="box-white">
+    <div class="block-content">
+      <div class="block-label-dark">How it works</div>
+      <h2 class="block-title-dark">Takes seconds to start. Nothing to install.</h2>
+      <p class="block-body-dark">Campaign Momentum runs entirely in your browser. Start using it immediately, then layer on cross-device sync or AI suggestions whenever you want them.</p>
+      <div class="steps-list">
+        <div class="step-item step-item-dark">
+          <div class="step-num-dark">1</div>
+          <div><h3>Launch the board</h3><p>Open the app and start adding campaigns right away. Everything is saved in your browser automatically — no account, no setup.</p></div>
+        </div>
+        <div class="step-item step-item-dark">
+          <div class="step-num-dark">2</div>
+          <div><h3>Connect a Google Sheet (optional)</h3><p>Paste in a Web App URL from a Google Sheet you own to sync your board across every device. Full setup guide included in the app's Settings.</p></div>
+        </div>
+        <div class="step-item step-item-dark">
+          <div class="step-num-dark">3</div>
+          <div><h3>Add an API key for AI suggestions (optional)</h3><p>Paste an Anthropic API key from console.anthropic.com to get a suggested next step on any card. Skip this and the board still works fully.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="frame-fog" id="faq">
+  <div class="box-ocean">
+    <div class="block-content">
+      <div class="block-label-light">FAQ</div>
+      <h2 class="block-title-light">Common questions.</h2>
+      <div class="faq-list" style="color: rgba(214,228,245,0.85);">
+        <div class="faq-item">
+          <h3 style="color:#fff;">Does Campaign Momentum cost anything?</h3>
+          <p>The board itself is free, with no subscription and no account required. AI suggestions are optional and billed per use directly by Anthropic through your own API key, typically a fraction of a cent per suggestion.</p>
+        </div>
+        <div class="faq-item">
+          <h3 style="color:#fff;">Do I need a Google account or an API key to use it?</h3>
+          <p>No. The board works fully in your browser with nothing connected. A Google Sheet is only needed if you want your board to sync across devices, and an API key is only needed for AI suggestions.</p>
+        </div>
+        <div class="faq-item">
+          <h3 style="color:#fff;">Where is my data stored?</h3>
+          <p>By default, only in your browser's local storage on that one device. If you connect a Google Sheet, your data lives in a spreadsheet you own — never on our servers.</p>
+        </div>
+        <div class="faq-item">
+          <h3 style="color:#fff;">Which AI provider does Campaign Momentum use?</h3>
+          <p>Campaign Momentum is built on Anthropic's Claude. It doesn't currently support other AI providers.</p>
+        </div>
+        <div class="faq-item">
+          <h3 style="color:#fff;">Can more than one person use the same board?</h3>
+          <p>Yes, if you connect a shared Google Sheet — anyone with the Web App URL can view and update the same board.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-band">
+  <div class="cta-inner">
+    <h2>Takes seconds to set up. Nothing to install.</h2>
+    <p>No account required to start. Connect a Google Sheet or an API key only if and when you want to.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center;">
+      <a class="btn-launch" href="app.html">Launch the board →</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">Campaign Momentum</div>
+  <div class="footer-tagline">Plan it. Track it. Ship it.</div>
+  <div class="footer-sub">Campaign Momentum is part of the <a href="https://plainspeakingcomms.com/psc-tools" target="_blank">PSC Tools</a> suite &nbsp;·&nbsp; AI powered by <a href="https://anthropic.com" target="_blank">Claude</a> &nbsp;·&nbsp; Your data stays in your browser or your own Google Sheet</div>
+</footer>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').then(function(reg) {
+      console.log('Service worker registered:', reg.scope);
+    }).catch(function(err) {
+      console.log('Service worker registration failed:', err);
+    });
+  });
+}
+</script>
+</body>
+</html>
